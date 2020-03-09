@@ -1,0 +1,16 @@
+@EnableAsync  //异步
+@Configuration
+@Slf4j
+public class xianchengchi {
+        @Bean("mobileSupplierDispatchExecutor")
+        public Executor mobileSupplierDispatchTaskExecutor(){
+            log.info("mobileSupplierDispatchExecutor start");
+            MonitorThreadPoolTaskExecutor executor = new MonitorThreadPoolTaskExecutor();
+            executor.setThreadNamePrefix("lp.m-");
+            initData(executor);
+            log.info("mobileSupplierTransportExecutor end");
+            return executor;
+        }
+
+
+}
