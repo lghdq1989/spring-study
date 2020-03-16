@@ -22,9 +22,9 @@ public class TimeThreeMONTH {
         calendar.set(Calendar.SECOND, 0);
         // 毫秒
         calendar.set(Calendar.MILLISECOND, 0);
-        Date emdTime =
-        System.out.println(format.format(calendar.getTime()));
-        System.out.println(month);
+//        Date emdTime =
+//        System.out.println(format.format(calendar.getTime()));
+//        System.out.println(month);
 
     }
 }

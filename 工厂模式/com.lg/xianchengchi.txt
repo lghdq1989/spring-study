@@ -2,6 +2,15 @@
 @Configuration
 @Slf4j
 public class xianchengchi {
+            private void initData(MonitorThreadPoolTaskExecutor executor) {
+                executor.setCorePoolSize(80);
+                executor.setWaitForTasksToCompleteOnShutdown(true);
+                executor.setAwaitTerminationSeconds(60);
+                executor.setKeepAliveSeconds(300);
+                executor.setQueueCapacity(1024);
+                executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+                executor.initialize();
+            }
         @Bean("mobileSupplierDispatchExecutor")
         public Executor mobileSupplierDispatchTaskExecutor(){
             log.info("mobileSupplierDispatchExecutor start");
@@ -11,6 +20,14 @@ public class xianchengchi {
             log.info("mobileSupplierTransportExecutor end");
             return executor;
         }
-
+        private void initData(MonitorThreadPoolTaskExecutor executor) {
+            executor.setCorePoolSize(80);
+            executor.setWaitForTasksToCompleteOnShutdown(true);
+            executor.setAwaitTerminationSeconds(60);
+            executor.setKeepAliveSeconds(300);
+            executor.setQueueCapacity(1024);
+            executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+            executor.initialize();
+        }
 
 }
