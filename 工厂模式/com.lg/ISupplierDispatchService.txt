@@ -1,0 +1,46 @@
+package com.midea.logistics.mobile.supplier.service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.midea.logistics.common.mobile.constants.MobileLtmsConstants;
+import com.midea.logistics.domain.mobile.domain.driver.MobileDispatch;
+import com.midea.logistics.domain.mobile.domain.driver.MobileLmsTask;
+import com.midea.logistics.domain.mobile.domain.driver.MobileReceiptFile;
+import com.midea.logistics.domain.mobile.domain.driver.MobileTask;
+import com.midea.logistics.domain.mobile.domain.driver.request.MobileLmsDriverDispatchRequest;
+import com.midea.logistics.domain.mobile.domain.driver.request.MobileTaskRequest;
+import com.midea.logistics.domain.mobile.domain.supplier.request.SupplierArtificialCancelRequest;
+import com.midea.logistics.domain.mobile.domain.supplier.request.SupplierDispatchRequest;
+import com.mideaframework.core.web.JsonResponse;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public interface ISupplierDispatchService {
+    /*
+    * 承包商供应-发车单列表
+    * */
+    JsonResponse searchDispatchs(SupplierDispatchRequest mobileDispatch);
+
+    /**
+     * 承包商供应-发车单上传回单图片（保存上传回单附件）
+     */
+     JsonResponse receiptUpload( SupplierDispatchRequest supplierDispatchRequest);
+
+    /**
+     * 承包商供应-发车单上传回刪除
+     */
+    JsonResponse deleteReceiptFile( MobileReceiptFile mobileReceiptFile);
+    /*
+    * 取消排車
+    * */
+    JsonResponse artificialCancel(SupplierArtificialCancelRequest artificialCancelRequest);
+
+    /*
+    * 承包商发车单详情
+    * */
+    public JsonResponse dispatchInfo(MobileTaskRequest mobileTaskRequest);
+
+
+}

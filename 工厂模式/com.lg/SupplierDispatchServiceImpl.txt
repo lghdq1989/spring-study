@@ -1,0 +1,49 @@
+package com.midea.logistics.mobile.supplier.service.impl;
+
+
+import com.midea.logistics.domain.mobile.domain.driver.MobileDispatch;
+import com.midea.logistics.domain.mobile.domain.driver.MobileReceiptFile;
+import com.midea.logistics.domain.mobile.domain.driver.request.MobileTaskRequest;
+import com.midea.logistics.domain.mobile.domain.supplier.request.SupplierArtificialCancelRequest;
+import com.midea.logistics.domain.mobile.domain.supplier.request.SupplierDispatchRequest;
+import com.midea.logistics.mobile.supplier.fegin.lcp.SupplierDispatchFeign;
+import com.midea.logistics.mobile.supplier.fegin.lcp.SupplierTransportFeigh;
+import com.midea.logistics.mobile.supplier.service.ISupplierDispatchService;
+import com.mideaframework.core.web.JsonResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+@Service
+public class SupplierDispatchServiceImpl implements ISupplierDispatchService {
+    @Autowired
+    SupplierDispatchFeign supplierDispatchFeign;
+    @Autowired
+    SupplierTransportFeigh supplierTransportFeigh;
+    @Override
+    public JsonResponse searchDispatchs(SupplierDispatchRequest mobileDispatch) {
+        return supplierDispatchFeign.searchDispatchs(mobileDispatch);
+    }
+
+    @Override
+    public JsonResponse receiptUpload(SupplierDispatchRequest supplierDispatchRequest) {
+        return supplierDispatchFeign.receiptUpload(supplierDispatchRequest);
+    }
+
+    @Override
+    public JsonResponse deleteReceiptFile(MobileReceiptFile mobileReceiptFile) {
+        return supplierDispatchFeign.deleteReceiptFile(mobileReceiptFile);
+    }
+
+    @Override
+    public JsonResponse artificialCancel(SupplierArtificialCancelRequest artificialCancelRequest){
+        return  supplierDispatchFeign.artificialCancel(artificialCancelRequest);
+    }
+
+    @Override
+    public JsonResponse dispatchInfo(MobileTaskRequest mobileTaskRequest) {
+        return supplierTransportFeigh.dispatchInfo(mobileTaskRequest);
+    }
+
+
+}

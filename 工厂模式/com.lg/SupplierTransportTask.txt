@@ -1,0 +1,43 @@
+import com.midea.logistics.common.mobile.service.BaseMobileService;
+import com.midea.logistics.domain.mobile.domain.supplier.request.SupplierTransportRequest;
+import com.midea.logistics.mobile.supplier.manager.SupplierServiceManager;
+import com.midea.logistics.mobile.supplier.service.ISupplierService;
+import com.mideaframework.core.web.JsonResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.Future;
+
+@Component
+@Slf4j
+public class SupplierTransportTask extends BaseMobileService{
+    @Autowired
+    SupplierServiceManager supplierServiceManager;
+
+    @Async("mobileSupplierTransportExecutor")
+    public Future<JsonResponse> searchTransports(SupplierTransportRequest transportRequest){
+        JsonResponse jsonResponse;
+        if(!(jsonResponse = checkParam(transportRequest)).judgeSuccess()) return new AsyncResult<>(jsonResponse);
+        ISupplierService service = supplierServiceManager.getService(transportRequest.getPlatform());
+        if(service==null) return new AsyncResult<>(JsonResponse.fail("platform not in service"));
+        jsonResponse= service.searchTransport(transportRequest);
+        return new AsyncResult<>(jsonResponse);
+    }
+
+
+    JsonResponse checkParam(SupplierTransportRequest transportRequest){
+        if(transportRequest==null){
+            return JsonResponse.fail("params can not be null");
+        }
+        if(StringUtils.isBlank(transportRequest.getPlatform())){
+            return JsonResponse.fail("platform can not be null");
+        }
+        return JsonResponse.success(null);
+    }
+
+
+}

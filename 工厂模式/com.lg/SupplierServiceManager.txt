@@ -1,0 +1,61 @@
+import com.google.common.collect.Maps;
+import com.midea.logistics.common.mobile.helper.ExceptionHelper;
+import com.midea.logistics.mobile.supplier.annotation.SupplierPlatform;
+import com.midea.logistics.mobile.supplier.constants.BusinessCodeSupplierEnum;
+import com.midea.logistics.mobile.supplier.service.ISupplierService;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+@Component
+@Slf4j
+@Data
+public class SupplierServiceManager {
+    @Autowired
+    ApplicationContext appContext;
+
+    private Map<String, ISupplierService> serviceMap = new CaseInsensitiveMap<String, ISupplierService>(8);
+    private Map<String, String> platforms = Maps.newHashMap();
+
+    @PostConstruct
+    private void init(){ //注解获取模式
+        Map<String, ISupplierService> beansOfType = appContext.getBeansOfType(ISupplierService.class);
+        for(ISupplierService service : beansOfType.values()){
+            SupplierPlatform annot = service.getClass().getAnnotation(SupplierPlatform.class);
+            if(null==annot){
+                log.info("bean not has platform {}", service.getClass());
+                continue;
+            }
+            serviceMap.put(annot.value(),service);
+            setPlatForms(annot.value());
+        }
+    }
+
+    public ISupplierService getService(String platform){
+        ISupplierService supplierService = serviceMap.get(platform);
+        if(supplierService == null){
+            throw ExceptionHelper.createException(BusinessCodeSupplierEnum.FAIL_1000019091);
+        }
+        return supplierService;
+    }
+
+    private void setPlatForms(String annotation){
+        if(platforms==null){
+            platforms = new HashMap<String, String>();
+        }
+        if(!platforms.containsKey(annotation)){
+            platforms.put(annotation,annotation);
+        }
+    }
+
+
+}
