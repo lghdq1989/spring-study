@@ -11,3 +11,5 @@ git仓库	http://git.midea.com/
 jenkins部署项目	http://lsit.midea.com:8081/jenkins/view/all/
 美的邮箱	https://mail.midea.com/
 自己组内的常用网址/帐号密码
+
+http://idea.medeming.com/jet/?utm_source=link.hacpai.com
