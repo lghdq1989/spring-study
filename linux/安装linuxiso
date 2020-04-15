@@ -1,0 +1,47 @@
+经典-选nat卡-启动盘选ios-安装-选日期-开网络按钮on-选密码
+安装yum install net-tools
+
+安装jdk--1.8
+
+查看Linux服务器版本
+lsb_release -a
+yum install -y redhat-lsb  安装插件
+
+删除mysql
+yum remove mysql-community-client mysql-community-common mysql-community-libs mysql-community-libs-compat mysql-community-server mysql80-community-release
+
+
+linux查看jdk
+yum list installed | grep java
+查看jdk有什么
+yum -y list java*
+yum install java-1.8.0-openjdk* -y
+
+yum -y install wget
+
+wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm
+yum -y install mysql57-community-release-el7-10.noarch.rpm
+yum -y install mysql-community-server
+
+删除mysql
+rpm -e mysql和rpm -e --nodeps mysql
+
+ sudo rpm -Uvh mysql80-community-release-el6-n.noarch.rpm  安装mysqlyum包
+
+yum -y install yum-utils 工具包
+ sudo yum-config-manager --disable mysql80-community
+ sudo yum-config-manager --enable mysql57-community
+
+ sudo yum install mysql-community-server  安装mysql
+ mysqld --initialize --user=mysql    初始化mysql
+ sudo service mysqld start
+systemctl status mysqld.service 状态
+tail -n 2000  /var/log/mysqld.log  查日志  Failed to open optimizer cost constant tables  要手工创建文档
+
+vi /etc/my.cnf 查看mysql核心文件路径
+echo ''->/var/log/mysqld.log  清理日志
+vi  /var/log/mysqld.log
+/var/log/mysqld.log
+
+
+
