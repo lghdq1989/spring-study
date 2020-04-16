@@ -31,17 +31,54 @@ rpm -e mysql和rpm -e --nodeps mysql
 yum -y install yum-utils 工具包
  sudo yum-config-manager --disable mysql80-community
  sudo yum-config-manager --enable mysql57-community
+ yum install -y mysql-community-server
 
  sudo yum install mysql-community-server  安装mysql
  mysqld --initialize --user=mysql    初始化mysql
+
+ systemctl start httpd.service
  sudo service mysqld start
+
 systemctl status mysqld.service 状态
 tail -n 2000  /var/log/mysqld.log  查日志  Failed to open optimizer cost constant tables  要手工创建文档
+grep "password" /var/log/mysqld.log 查看密码
 
 vi /etc/my.cnf 查看mysql核心文件路径
 echo ''->/var/log/mysqld.log  清理日志
 vi  /var/log/mysqld.log
 /var/log/mysqld.log
+yum install mariadb 插件
+$ yum install mariadb-embedded mariadb-libs mariadb-bench mariadb mariadb-sever
 
+
+
+.ryl?o;wj98H
+
+
+
+首先需要安装mariadb-server
+
+　　~]# yum install -y mariadb-server
+
+　　启动服务
+
+　　~]# systemctl start mariadb.service
+
+　　添加到开机启动
+
+　　~]# systemctl enable mariadb.service
+
+
+yum clean all  #清除仓库缓存
+yum makecache #将服务器包信息缓存到本地
+
+禁止插件
+ vim  /etc/yum/pluginconf.d/fastestmirror.conf
+ enabled=0    //由 1 改成0 ，禁用该插件
+vim /etc/yum.conf
+plugins=0
+# yum clean all
+# yum makecache
+service network restart
 
 
