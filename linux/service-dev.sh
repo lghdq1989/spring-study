@@ -6,6 +6,7 @@ ENV=dev
 BAK_NUM=3
 
 APP_HOME=$(dirname $(cd `dirname $0`; pwd))
+nohup java -server -Xms512m -Xmx512m  -jar /uar/local/target/dcp-server-eureka-1.0.0-SNAPSHOT-exec.jar >/dev/null 2>&1 &
 
 psid=0
 checkpid() {
@@ -17,7 +18,7 @@ checkpid() {
    fi
 }
 
-start() {
+  start() {
    checkpid
    if [ $psid -ne 0 ]; then
       echo "================================"
