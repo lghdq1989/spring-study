@@ -1,6 +1,19 @@
 经典-选nat卡-启动盘选ios-安装-选日期-开网络按钮on-选密码
 安装yum install net-tools
 
+
+查看防火墙状态-------------------
+
+firewall-cmd --state
+
+停止firewall
+
+systemctl stop firewalld.service
+
+禁止firewall开机启动
+
+systemctl disable firewalld.service
+--------------------------------------------------
 安装jdk--1.8
 
 查看Linux服务器版本
@@ -105,3 +118,21 @@ chkconfig iptables off
 systemctl enable firewalld
 
 service iptables restart  
+
+
+1、安装sshpass
+  tar -zxvf sshpass-1.05.tar.gz -C /apps/svr
+  cd /apps/svr/sshpass-1.05
+  ./configure --prefix=/apps/svr/sshpass-1.05
+  make
+  make install
+
+2、安装apache-maven-3.5.2
+  unzip -n apache-maven-3.5.2.zip -d /apps/svr
+  vi /etc/profile
+  export M2_HOME=/apps/svr/apache-maven-3.5.2
+  export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$M2_HOME/bin:$PATH
+  source /etc/profile
+
+3、安装svn
+  yum install subversion

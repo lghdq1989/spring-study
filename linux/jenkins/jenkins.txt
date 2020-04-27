@@ -12,3 +12,4 @@ https://github.com/jenkins-infra/update-center2/pull/245
 rm -rf /root/.jenkins/
 8b87fd03baf740f1ac141b33fedf6c82
 https://blog.csdn.net/wshl1234567/article/details/78999920
+
