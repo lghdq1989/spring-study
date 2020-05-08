@@ -51,3 +51,6 @@ NodeJS ;
 Build Authorization Token Root Plugin
 git、publish over ssh、SSH plugin
 maven intergration plugin
+
+
+vim /etc/httpd/conf/httpd.conf
