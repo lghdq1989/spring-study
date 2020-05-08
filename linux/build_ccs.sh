@@ -215,7 +215,9 @@ if [[ ${isVue} == "true" ]]; then
         rm -rf ${feWorkspace}/*
         mkdir -p ${feWorkspace}
         git clone -b ${gitBranch} git@git.midea.com:${gitPath} ${feWorkspace} | tee -a ${logPath}/git.log
-    elif [[ -n ${gitTag} ]]; then
+    elif [[ -n ${
+
+    } ]]; then
         cd ${feWorkspace}
         git checkout ${gitTag} | tee -a ${logPath}/git.log
         if [[ ${gitTag} == "eco" ]] || [[ ${gitTag} == "trunk" ]]; then
