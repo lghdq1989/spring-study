@@ -10,4 +10,44 @@ https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
 https://github.com/jenkins-zh/mirror-adapter
 https://github.com/jenkins-infra/update-center2/pull/245
 rm -rf /root/.jenkins/
-864ec1a9afbf41cca905f334040d0413
+ cat /root/.jenkins/hudson.model.UpdateCenter.xml
+https://jenkins-zh.gitee.io/update-center-mirror/tsinghua/update-center.json
+c4bddea1926b4ae1875dac97410bf40e
+http://updates.jenkins.io/update-center.json
+vim  /root/.jenkins/hudson.model.UpdateCenter.xml
+
+b1d4a184969c4319a6698a4678cadc5e
+
+This may also be found at: C:\Users\Administrator\.jenkins\secrets\initialAdminPassword
+
+
+TYPE=Ethernet
+BOOTPROTO=static
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+NAME=eno16777736
+UUID=c15a5b8b-bad0-4bc1-a082-527c3c18daf4
+DEVICE=eno16777736
+ONBOOT=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPADDR0=192.168.33.130
+~
+插件
+Publish Over SSH
+GitHub Integration
+GitLab Plugin ;
+
+Gitlab Hook Plugin ;
+
+NodeJS ;
+
+Build Authorization Token Root Plugin
+git、publish over ssh、SSH plugin
+maven intergration plugin
