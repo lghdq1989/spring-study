@@ -19,6 +19,9 @@ apache命令相关命令
 # systemctl enable httpd.service
 
 vim /etc/httpd/conf/httpd.conf
+sudo yum -y remove httpd*
 
 ServerRoot "/etc/httpd"
 根路径
+vim /etc/httpd/conf/httpd.conf
+
