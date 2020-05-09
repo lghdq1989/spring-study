@@ -1,0 +1,24 @@
+yum install -y httpd
+启动apache
+
+# systemctl start httpd.service
+1
+设置Apache开机启动
+
+# systemctl enable httpd.service
+1
+apache命令相关命令
+
+// 启动apache
+# systemctl start httpd.service
+// 停止apache
+# systemctl stop httpd.service
+// 重启apache
+# systemctl restart httpd.service
+// 设置apache开机启动
+# systemctl enable httpd.service
+
+vim /etc/httpd/conf/httpd.conf
+
+ServerRoot "/etc/httpd"
+根路径

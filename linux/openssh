@@ -1,0 +1,78 @@
+
+1.安装OpenSSH服务(CentOS系统默认安装了openssh)
+  yum install openssh-server -y
+2.配置OpenSSH服务(默认的配置已可以正常工作)
+OpenSSH的主配置文件：/etc/ssh/sshd_config
+  常见的配置选项：
+    Port=22  设置SSH的端口号是22(默认端口号为22)
+    Protocol 2  启用SSH版本2协议
+    ListenAddress 192.168.0.222  设置服务监听的地址
+    DenyUsers   user1 user2 foo  拒绝访问的用户(用空格隔开)
+    AllowUsers  root osmond vivek  允许访问的用户(用空格隔开)
+    PermitRootLogin  no  禁止root用户登陆
+    PermitEmptyPasswords no  用户登陆需要密码认证
+    PasswordAuthentication  yes  启用口令认证方式
+3.重启OpenSSH服务
+  service sshd restart
+4.客户端通过ssh远程连接服务器
+  ssh username@hostname(hostIP)
+  如：ssh user1@192.168.10.10
+5.OpenSSH简介
+  SSH(Secure SHell)目的是要在非安全网络上提供安全的远程登录和其他安全服务
+  OpenSSH是 SSH 协议的免费开源实现,默认的SSH协议是版本2(支持RSA和DSA)
+  OpenSSH支持的用户认证方式有基于 PAM 的用户口令认证和用户密钥认证
+
+=====================================================================================
+ssh远程登录密码认证的方式有三种，password、Keyboard Interactive、Public Key
+前面两种方式就是密码认证，含义都是一样大同小异。第三种是登录方式最安全的一种。
+下面我们就来实现第三种方式public key秘钥认证方式。
+二、原理：
+ssh客户端利用服务端发过来的私钥，进行登录的认证，认证服务端的公钥。从来实现
+安全的访问。
+三、准备：
+服务端
+系统：Centos7.1
+四、服务端生成秘钥
+ssh-keygen -b 1024 -t dsa
+接下来直接Enter
+生成的路径：/root/.ssh/
+-rw-r--r--. 1 root root 668 Aug  1 05:27 id_dsa
+-rw-r--r--. 1 root root 616 Aug  1 05:05 id_dsa.pub
+修改权限：
+chmod 700 .ssh/
+chmod 600 ~/.ssh/id_dsa
+chmod 644 ~/.ssh/id_dsa.pub
+生成认证秘钥：
+cat id_dsa.pub >> authorized_keys
+-rw-r--r--. 1 root root 616 Aug  1 05:27 authorized_keys
+-rw-r--r--. 1 root root 668 Aug  1 05:27 id_dsa
+-rw-r--r--. 1 root root 616 Aug  1 05:05 id_dsa.pub
+五、更改sshd的配置文件
+vi /etc/ssh/sshd_config
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys #开启认证，设置认证路径
+PasswordAuthentication no #禁用密码认证
+保存退出
+六、将私钥发送给客户端，重启sshd服务
+systemctl restart sshd
+七、使用xshell远程登录
+ssh 地址--->输入用户名--->选择public key导入证书--->即可登录！
+选择浏览文件，选择私钥即可！！
+登录成功！！
+Just Do It
+
+====================================================================================
+  yum install openssh-client
+
+  ssh root@192.168.26.135
+ssh  -i /home/ec2-user/eu-central1-key.pem  centos@18.194.33.152
+
+
+ssh-copy-id -i /root/.ssh/id_rsa.pub 加密用户名@主机ip
+
+ssh-copy-id   #加密命令
+
+-i   #指定密钥
+
+/root/.ssh/id_rsa.pub   #密钥
