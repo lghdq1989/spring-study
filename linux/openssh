@@ -67,6 +67,7 @@ Just Do It
 
   ssh root@192.168.26.135
 ssh  -i /home/ec2-user/eu-central1-key.pem  centos@18.194.33.152
+ssh  -i /home/passwork/eu-central1-key.pem  centos@18.194.33.152
 
 
 ssh-copy-id -i /root/.ssh/id_rsa.pub 加密用户名@主机ip

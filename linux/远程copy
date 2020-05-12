@@ -12,5 +12,7 @@ scp -r -v /home/work/sourcedir work@www.myhost.com:/home/work/  #显示详情，
 
 
 
+scp -i eu-central1-key.pem  -v /home/password/dcp-service-dcpmange-1.0.0-SNAPSHOT-exec.jar centos@18.194.33.152:/apps/data/service/mange
+
 
 rsync
