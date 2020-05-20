@@ -1,0 +1,35 @@
+
+1.选择性插入
+
+insert into idcp_service_config_info ( service_basic_info_id,
+      service_area, service_lang, is_usable,
+      is_delete,
+      <if test="createdBy != null">
+        created_by,
+
+        creation_date,
+      </if>
+      <if test="lastUpdatedBy != null">
+        last_updated_by,
+
+        last_update_date,
+      </if>
+      service_content
+      )
+      SELECT  #{serviceBasicInfoId,jdbcType=BIGINT},
+      #{serviceArea,jdbcType=VARCHAR}, #{serviceLang,jdbcType=VARCHAR}, #{isUsable,jdbcType=INTEGER},
+      #{isDelete,jdbcType=INTEGER},
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+        now(),
+      </if>
+      <if test="lastUpdatedBy != null">
+        #{lastUpdatedBy,jdbcType=VARCHAR},
+        now(),
+      </if>
+       #{serviceContent,jdbcType=LONGVARCHAR}
+      from DUAL WHERE NOT EXISTS
+      (SELECT service_lang FROM idcp_service_config_info WHERE service_lang =  #{serviceLang,jdbcType=VARCHAR} )
+
+
+      IotConneProdServiceImpl

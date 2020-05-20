@@ -1,0 +1,36 @@
+
+
+<foreach collection="crmEntList" item="item" open="(" separator="," close=")">
+								#{item}
+</foreach>
+
+
+
+Mybatis ResultMap Collection 复合主键
+ <resultMap type="XX" id="XXMap">
+        <id property="id" column="colid"/>
+
+        <id property="name" column="colname"/>
+
+        <collection property="list" javaType="ArrayList" column="{id = colid,name=colname}" select="getSubXXX"/>
+ </resultMap>
+
+前为别名后为主查询getXXX语句中字段
+
+<select id="getXXX" parameterType="HashMap" resultMap="XXX">
+        SELECT colid,colname FROM table1
+
+ </select>
+
+ <select id="getSubXXX" parameterType="HashMap" resultType="XXX">
+        SELECT * FROM table2 WHERE id = #{id} AND name = #{name}
+  </select>
+
+javatype 等于属性  ofType 等于list
+   <collection property="idcpServiceBasicInfoLanguageList" ofType="com.midea.dcp.product.entity.IdcpServiceBasicInfoLanguage">
+      <!-- 定义这个集合中元素的封装规则 -->
+      <id column="basid" property="serviceBasicInfoId"/>
+      <id column="language" property="language"/>
+      <result column="service_desc" property="serviceDesc"/>
+      <result column="service_name" property="serviceName"/>
+    </collection>

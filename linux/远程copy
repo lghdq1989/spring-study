@@ -13,6 +13,12 @@ scp -r -v /home/work/sourcedir work@www.myhost.com:/home/work/  #显示详情，
 
 
 scp -i eu-central1-key.pem  -v /home/password/dcp-service-dcpmange-1.0.0-SNAPSHOT-exec.jar centos@18.194.33.152:/apps/data/service/mange
+sudo scp -i eu-central1-key.pem  -v /home/password/dcp-service-security-1.0.0-SNAPSHOT-exec.jar  centos@18.194.33.152:/apps/data/service/security
+sudo scp -i eu-central1-key.pem  -v /home/password/dcp-service-product-1.0.0-SNAPSHOT-exec.jar  centos@3.123.142.146:/apps/data/service/product
+sudo scp -i eu-central1-key.pem  -v /home/password/dcp-web.zip  centos@3.120.177.50:/apps/svr/apache/dcp-web
+
 
 
 rsync
+
+

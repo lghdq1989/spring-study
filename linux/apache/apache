@@ -25,3 +25,5 @@ ServerRoot "/etc/httpd"
 根路径
 vim /etc/httpd/conf/httpd.conf
 
+
+cd bin./httpd -k stop./httpd -k start前端在这台18.162.200.44cd /apps/svr/apache

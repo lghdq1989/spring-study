@@ -11,8 +11,8 @@ public class OptionalTest {
 //        Optional op = Optional.of(null); //此处会报错
 //        System.out.println(op);
 //        2 允许包裹对象为nul，为null时返回empty Optional
-//        Optional op = Optional.ofNullable(1);
-//        System.out.println(op);
+        Optional op = Optional.ofNullable(null);
+        System.out.println(Optional.empty());
 //        3 如果值存在并且满足断言，则返回满足条件的Optional，否则返回empty。经常用来做过滤。
 //        Optional<String> op = Optional.of("jack");
 //        Optional res = op.filter((name)-> name.length()>6);
