@@ -69,6 +69,10 @@ Just Do It
 ssh  -i /home/ec2-user/eu-central1-key.pem  centos@18.194.33.152
 ssh  -i /home/passwork/eu-central1-key.pem  centos@3.123.142.146
 
+    sudo ssh  -i meiju-x86Add1586499816236.pem   centos@3.15.49.98
+
+
+
 54.93.218.153 redis
 redis-cli -h cdcpfceu.7wsijq.ng.0001.euc1.cache.amazonaws.com -p 6379
 
@@ -80,3 +84,5 @@ ssh-copy-id   #加密命令
 -i   #指定密钥
 
 /root/.ssh/id_rsa.pub   #密钥
+
+ cat /etc/resolv.conf

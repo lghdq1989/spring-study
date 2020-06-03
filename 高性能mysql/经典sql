@@ -32,4 +32,8 @@ insert into idcp_service_config_info ( service_basic_info_id,
       (SELECT service_lang FROM idcp_service_config_info WHERE service_lang =  #{serviceLang,jdbcType=VARCHAR} )
 
 
-      IotConneProdServiceImpl
+    =================================================================================
+    覆盖插入
+REPLACE INTO user (id,name,id_card)
+SELECT id,'ly',142733 FROM user RIGHT JOIN (SELECT 1) AS tab
+ON user.id_card = 142733;

@@ -34,3 +34,28 @@ javatype 等于属性  ofType 等于list
       <result column="service_desc" property="serviceDesc"/>
       <result column="service_name" property="serviceName"/>
     </collection>
+
+
+     <choose>
+
+              <when test=" type == 'x1' '">
+
+                  where   条件1;
+
+             </when >
+
+             <when test=" type == 'x2' '">
+
+                  where  条件2;
+
+             </when >
+
+            <otherwise>
+
+                   条件3;   // 可以为空
+
+           </otherwise>
+
+
+
+       </choose>

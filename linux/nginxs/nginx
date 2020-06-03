@@ -1,5 +1,9 @@
 sudo rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 
+/usr/sbin/nginx -c /etc/nginx/nginx.conf
+
+
+nginx -s stop
 
 2、安装Nginx
 
@@ -200,3 +204,27 @@ http
 yum install policycoreutils-python
 cat /var/log/audit/audit.log | grep nginx | grep denied | audit2allow -M mynginx
 semodule -i mynginx.pp
+
+
+   upstream idcp_4Asystem
+   {
+     server 10.16.38.17;
+   }
+
+  server {
+      listen       8881;
+      server_name  localhost;
+      charset utf-8;
+      access_log  logs/access.log;
+      error_page 497  http://$host:80$uri?$args;
+       location / {
+           proxy_pass        http://idcp_4Asystem;
+           proxy_set_header   Host             $host:${server_port};
+           proxy_set_header   X-Real-IP        $remote_addr;
+           proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           root   html;
+          index  index.html index.htm;
+       }
+
+
+}

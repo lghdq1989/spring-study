@@ -1,0 +1,79 @@
+Nginx1.12升级到Nginx1.16稳定版本
+
+环境说明
+
+服务器中最开始使用的是Nginx1.3.14版本,目前正在运行Nginx1.12版本，现在想将当前运行的Nginx服务的版本进行升级到最新的稳定版，(从1.12升级到1.16,版本的跨度不要太大，容易造成服务的崩溃)，且在服务不停止的前提下经行升级。
+
+　　1. 在不停掉老进程的情况下，启动新进程。
+
+　　2. 老进程负责处理仍然没有处理完的请求，但不再接受处理请求。
+
+　　3. 新进程接受新请求。
+
+　　4. 老进程处理完所有请求，关闭所有连接后，停止。
+
+
+
+实现步骤:
+
+1、获取nginx的安装目录
+
+[root@XiaoFeng logs]# ps -ef | grep nginx | grep master | awk -F" " '{print $11}'
+/usr/local/nginx/sbin/nginxPHPCopy
+2、查看升级之前的nginx版本,同时获取旧nginx版本的编译参数
+
+[root@XiaoFeng sjd]# /usr/local/nginx/sbin/nginx -V #注意是大写的V
+nginx version: nginx/1.12.2
+built by gcc 4.4.7 20120313 (Red Hat 4.4.7-18) (GCC)
+built with OpenSSL 1.0.1e-fips 11 Feb 2013
+TLS SNI support enabled
+configure arguments: --user=nginx --group=nginx --prefix=/usr/local/nginx/ --with-http_v2_module --with-http_ssl_module --with-http_sub_module --with-http_stub_status_module --with-http_gzip_static_module --with-pcre --with-http_realip_modulePHPCopy
+3、到官网下载1.16.0版本的nginx (下载地址：http://nginx.org/en/download.html)
+
+[root@XiaoFeng sjd]#  wget http://nginx.org/download/nginx-1.16.0.tar.gzPHPCopy
+4、解压下载好的文件，并进入文件夹进行编译（只编译不安装）
+
+[root@XiaoFeng sjd]# tar xf nginx-1.16.0.tar.gz
+[root@XiaoFeng sjd]# cd nginx-1.16.0
+[root@XiaoFeng nginx-1.16.0]# ./configure --user=nginx --group=nginx --prefix=/usr/local/nginx/ --with-http_v2_module --with-http_ssl_module --with-http_sub_module --with-http_stub_status_module --with-http_gzip_static_module --with-pcre --with-http_realip_module
+[root@XiaoFeng nginx-1.16.0]# makePHPCopy
+5、备份旧版本的nginx的执行程序
+
+[root@XiaoFeng nginx-1.16.0]# mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx12.oldPHPCopy
+6、替换旧的Nginx的执行程序
+
+[root@XiaoFeng nginx-1.16.0]# cp objs/nginx /usr/local/nginx/sbin/
+[root@webserver nginx-1.16.0]# cd /usr/local/nginx/sbin/
+[root@XiaoFeng sbin]# ls
+nginx  nginx12.old  nginx.oldPHPCopy
+7、发送USR2信号给旧版本主进程号,使nginx的旧版本停止接收请求，用nginx新版本接替，且老进程处理完所有请求，关闭所有连接后，停止
+
+[root@webserver sbin]# cd ..
+[root@webserver nginx]# cd logs/
+[root@XiaoFeng logs]# ls
+access.log  error.log  nginx.pid  shunjie.access.log
+[root@XiaoFeng logs]# kill -USR2 `cat /usr/local/nginx/logs/nginx.pid`PHPCopy
+8、查看nginx pid目录,多了个nginx.pid.oldbin文件，存放了旧版本nginx的pid号
+
+[root@XiaoFeng logs]# ls
+access.log  error.log  nginx.pid  nginx.pid.oldbin
+#查看服务运行状态
+[root@XiaoFeng logs]# netstat -aupt | grep nginx
+tcp        0      0 *:http                      *:*                         LISTEN      793/nginxPHPCopy
+9、从容关闭旧进程
+
+[root@XiaoFeng logs]# kill -QUIT `cat nginx.pid.oldbin`
+[root@XiaoFeng logs]# ls
+access.log  error.log  nginx.pid  shunjie.access.logPHPCopy
+
+
+10、查看升级后的版本
+
+[root@XiaoFeng logs]# /usr/local/nginx/sbin/nginx -v
+nginx version: nginx/1.16.0
+
+一定要加载stream
+./configure --prefix=/apps/svr/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_realip_module --add-module=/apps/tools/nginx_upstream_check_module-master –with-stream=dynamic
+
+
+3.15.49.98

@@ -1,0 +1,5 @@
+sudo vim /etc/hosts
+curl -d {"uid":"ex_lianggang"} -X POST   http://orange.com:8881/idm/account/unique
+
+window
+ipconfig /flushdns

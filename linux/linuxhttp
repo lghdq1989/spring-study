@@ -1,0 +1,59 @@
+http://www.ruanyifeng.com/blog/2019/09/curl-reference.html
+h header
+curl -H 'User-Agent: php/1.0' https://google.com
+curl -H 'Accept-Language: en-US' -H 'Secret-Message: xyzzy' https://google.com
+b cookies
+curl -b 'foo=bar' https://google.com
+
+-d参数用于发送 POST 请求的数据体。
+$ curl -d 'login=emma' -d 'password=123' -X POST  https://google.com/login
+
+-F参数用来向服务器上传二进制文件。
+curl -F 'file=@photo.png' https://google.com/profile
+
+
+
+curl -H 'appKey: c837606f1f14ca191bd963f7c7fbfc6' -H 'secretId: 4f810cd27419fa842080e5287e566ccf29b969a335c714db3489118ab645eb07e7929a4008489d89e9231c05eaf18841' -d {"uid":"ex_lianggang"} -X POST   http://idmapiuat.midea.com/idm/account/unique
+10.16.38.17
+curl -d {"uid":"ex_lianggang"} -X POST   http://idmapiuat.midea.com/idm/account/unique
+
+/usr/sbin/nginx -c /etc/nginx/nginx.conf
+
+
+curl -d {"uid":"ex_lianggang"} -X POST   http://10.16.38.17/idm/account/unique
+curl -d {"uid":"ex_lianggang"} -X POST   http://10.2.0.94:8881/idm/account/unique
+
+
+curl -d {"uid":"ex_lianggang"} -X POST   http://orange.com:8881/idm/account/unique
+stream {
+
+    upstream cloudsocket {
+       hash $remote_addr consistent;
+      # $binary_remote_addr;
+       server 10.16.38.17 weight=5 max_fails=3 fail_timeout=30s;
+    }
+    server {
+       listen 8888;#数据库服务器监听端口
+       proxy_connect_timeout 10s;
+       proxy_timeout 300s;#设置客户端和代理服务之间的超时时间，如果5分钟内没操作将自动断开。
+       proxy_pass cloudsocket;
+    }
+}
+
+10.16.8.41
+stream {
+  upstream idcp_4Amysql
+   {
+    hash $remote_addr consistent;
+     server 10.16.8.41:8888 weight=5 max_fails=3 fail_timeout=30s;
+   }
+
+ server {
+     listen 3306;#数据库服务器监听端口
+            proxy_connect_timeout 10s;
+            proxy_timeout 300s;#设置客户端和代理服务之间的超时时间，如果5分钟内没操作将自动断开。
+            proxy_pass cloudsocket;
+   }
+}
+
+./configure --prefix=/apps/svr/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_realip_module --add-module=/apps/tools/nginx_upstream_check_module-master –with-stream=dynamic

@@ -7,7 +7,7 @@ import org.junit.Test;
  */
 public class lixi {
     public static void main(String[] args) {
-        money(12000.0, 0.05,10.0 );
+        money(9000.0, 0.15,9.0 );
     }
 
     @Test
