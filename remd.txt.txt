@@ -21,3 +21,44 @@ http://idea.medeming.com/jet/?utm_source=link.hacpai.com
  Huang,Xiaoying
 抄送:
  Cai,Juanhua‎; Huang,Liuting
+
+
+
+
+
+美的需求地址
+
+http://confluence.msmart.com/pages/viewpage.action?pageId=38643192
+
+【DCP-sit】对接以下环境：
+http://iflowsit.midea.com/mse/management.html#/allProcess
+
+
+【DCP-uat】对接以下环境：
+http://iflowuat.midea.com/mse/management.html#/allProcess
+
+chenchao17
+Mse123
+
+
+10.73.11.98:8000
+
+
+2020 6.1   2小时
+2020 6.2   2小时
+2020 6.4   2小时
+2020 6.8   2小时
+2020 6.9   2小时
+2020 6.11  2小时
+2020 6.13  8小时
+2020 6.15  2小时
+2020 6.16  2小时
+2020 6.18  2小时
+2020 6.21  8小时
+2020 6.22  2小时
+2020 6.23  2小时
+2020 6.27  4小时
+2020 6.28  2小时
+2020 6.29  2小时
+2020 6.30  2小时
+一共48小时

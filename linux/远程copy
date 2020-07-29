@@ -18,7 +18,14 @@ sudo scp -i eu-central1-key.pem  -v /home/password/dcp-service-product-1.0.0-SNA
 sudo scp -i eu-central1-key.pem  -v /home/password/dcp-web.zip  centos@3.120.177.50:/apps/svr/apache/dcp-web
 
 
-
+10.2.0.94
 rsync
 
 
+mvn sonar:sonar \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=a71727af5fdca6093b6edfba081fe2de6ddd1a3c
+--推包
+sudo scp -i meiju-x86Add1586499816236.pem  -v   /apps/publish_all/  centos@3.22.123.41:/apps/data/
+  /apps/publish_all
+/apps/data/service/product/

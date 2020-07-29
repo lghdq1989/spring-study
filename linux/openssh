@@ -64,15 +64,20 @@ Just Do It
 
 ====================================================================================
   yum install openssh-client
-
+ 3.123.142.146
   ssh root@192.168.26.135
 ssh  -i /home/ec2-user/eu-central1-key.pem  centos@18.194.33.152
 ssh  -i /home/passwork/eu-central1-key.pem  centos@3.123.142.146
 
     sudo ssh  -i meiju-x86Add1586499816236.pem   centos@3.15.49.98
+    sudo ssh  -i eu-central1-key.pem   centos@18.194.33.152
+    sudo ssh  -i eu-central1-key.pem   centos@18.194.33.152
+3.123.142.146
 
-
-
+ sudo ssh  -i eu-central1-key.pem  centos@3.18.35.9
+     sudo ssh  -i meiju-x86Add1586499816236.pem   centos@3.18.35.9
+3.133.35.168
+ 3.15.49.98
 54.93.218.153 redis
 redis-cli -h cdcpfceu.7wsijq.ng.0001.euc1.cache.amazonaws.com -p 6379
 
@@ -86,3 +91,75 @@ ssh-copy-id   #加密命令
 /root/.ssh/id_rsa.pub   #密钥
 
  cat /etc/resolv.conf
+
+ lizt10  Midea123
+
+
+
+ nohup java -server -Xmn2048m -Xms4096m -Xmx4096m -XX:PermSize=128m -XX:MaxPermSize=256m -Xss256K -XX:MaxDirectMemorySize=1024m
+ -XX:NativeMemoryTracking=detail -XX:SurvivorRatio=1 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled
+ -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=0 -XX:+CMSClassUnloadingEnabled -XX:LargePageSizeInBytes=128M
+ -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+PrintClassHistogram -XX:+PrintGCDetails
+ -XX:+PrintGCTimeStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/apps/data/product.hprof -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8 -Dlog.level.console=info -jar /apps/data/service/product/dcp-service-product-1.0.0-SNAPSHOT-exec.jar
+ --spring.config.location/apps/data/service/product/application.properties &
+
+
+sudo scp -i meiju-x86Add1586499816236.pem   -v    centos@3.22.123.41:/apps/data
+nohup java -server -Xmn2048m -Xms4096m -Xmx4096m -XX:PermSize=128m -XX:MaxPermSize=256m -Xss256K -XX:MaxDirectMemorySize=1024m -XX:NativeMemoryTracking=detail -XX:SurvivorRatio=1 -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=0 -XX:+CMSClassUnloadingEnabled -XX:LargePageSizeInBytes=128M -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=80 -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+PrintClassHistogram -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/apps/data/product-heapdump.hprof -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8 -Dlog.level.console=info -jar /apps/data/service/product/dcp-service-product-1.0.0-SNAPSHOT-exec.jar --spring.config.location=/apps/data/service/product/application.properties
+
+sudo scp -i meiju-x86Add1586499816236.pem   -v    centos@10.112.2.86:/apps/data
+
+--apps目标服务器
+ /apps/data/build/workspace/Trunk/dcp-spring-cloud/dcp-service-modules/dcp-service-product/target/
+
+    server {
+         listen        8001 ssl;
+         server_name  localhost;
+         ssl_certificate      /apps/svr/nginx/sslkey/midea_com_ssl.pem;
+         ssl_certificate_key  /apps/svr/nginx/sslkey/midea_com_ssl.key;
+         ssl_protocols  SSLv3 TLSv1;
+         ssl_session_cache    shared:SSL:1m;
+         ssl_session_timeout  5m;
+         ssl_ciphers ALL:!kEDH!ADH:RC4+RSA:+HIGH:+EXP;
+         ssl_prefer_server_ciphers  on;
+         error_page 497  https://$host:8001$uri?$args;
+
+         add_header Strict-Transport-Security max-age=63072000;
+         add_header X-Frame-Options SAMEORIGIN;
+         add_header X-Content-Type-Options nosniff;
+
+         #app ip
+         location /dcp-web/ {
+                 proxy_set_header Host $host:$server_port;
+                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                 proxy_set_header X-Forwarded-Proto $scheme;
+                 proxy_connect_timeout      240;
+                 proxy_send_timeout         240;
+                 proxy_read_timeout         240;
+                 proxy_pass http://idcp_gateway/;
+                 access_log  logs/access.log;
+                 root   html;
+                 index  index.html index.htm;
+        }
+
+          server {
+              listen       443 ssl;
+              server_name amazonaws-2;
+               ssl_certificate      /apps/svr/nginx/sslkey/midea_com_ssl.pem;
+               ssl_certificate_key  /apps/svr/nginx/sslkey/midea_com_ssl.key;
+               ssl_protocols  SSLv3 TLSv1;
+               ssl_session_cache    shared:SSL:1m;
+               ssl_session_timeout  5m;
+               ssl_ciphers ALL:!kEDH!ADH:RC4+RSA:+HIGH:+EXP;
+               ssl_prefer_server_ciphers  on;
+               error_page 497  https://$host:8001$uri?$args;
+               location / {
+                  proxy_pass        https://s3.us-east-2.amazonaws.com;
+
+
+               }
+         }
+
+
+
+

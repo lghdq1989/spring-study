@@ -1,0 +1,3 @@
+netstat -an | grep 9000
+
+ useradd  elasticsearch

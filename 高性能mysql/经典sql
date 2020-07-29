@@ -37,3 +37,34 @@ insert into idcp_service_config_info ( service_basic_info_id,
 REPLACE INTO user (id,name,id_card)
 SELECT id,'ly',142733 FROM user RIGHT JOIN (SELECT 1) AS tab
 ON user.id_card = 142733;
+
+    insert into idcp_service_config_apply18n
+        ( service_area, service_lang,
+        apply_id, service_content,remark,is_Usable,is_Delete)
+        SELECT   #{serviceArea,jdbcType=VARCHAR}, #{serviceLang,jdbcType=VARCHAR},
+      #{applyId,jdbcType=BIGINT}, #{serviceContent,jdbcType=LONGVARCHAR},#{remark,jdbcType=VARCHAR},#{isUsable,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER}
+        from DUAL WHERE NOT EXISTS
+        (SELECT service_lang FROM idcp_service_config_apply18n
+        WHERE
+            service_lang =#{serviceLang,jdbcType=VARCHAR}
+        and apply_id =#{applyId,jdbcType=BIGINT}
+        and service_area=#{serviceArea,jdbcType=VARCHAR}
+        )
+
+
+
+        <insert id="addUserByRole" parameterType="com.midea.dcp.dcpmange.api.DcpAuthRoleUser" >
+            	INSERT INTO dcp_auth_role_user
+
+                        (user_id,
+                        role_id,
+                        usable,
+                        creator,
+                        created_date,
+                        modified,
+                            modified_date) select  #{userId,jdbcType=BIGINT},#{roleId,jdbcType=BIGINT},#{usable,jdbcType=INTEGER}, #{creator,jdbcType=VARCHAR}
+                        now(), #{modified,jdbcType=VARCHAR}, NOW()
+                        from DUAL WHERE NOT EXISTS (SELECT role_id from dcp_auth_role_user where user_id=  #{userId,jdbcType=BIGINT} and role_id =#{roleId,jdbcType=BIGINT} )
+
+
+
