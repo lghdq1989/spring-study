@@ -1,5 +1,8 @@
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author ex_lianggang
  * @Date 2020/3/30 15:34
@@ -7,7 +10,20 @@ import org.junit.Test;
  */
 public class lixi {
     public static void main(String[] args) {
-        money(9000.0, 0.15,9.0 );
+        List str1 =new ArrayList<>();
+        str1.add(1);
+        str1.add(2);
+        str1.add(3);
+        List str2 =new ArrayList<>();
+        str2.add(2);
+        str2.add(3);
+        str1.removeAll(str2);
+        System.out.println(str1);
+       // money(10000.0, 0.15,7.0 );
+//        String key ="11";
+//        if(key==key.toString()){
+//            System.out.println(1111);
+//        }
     }
 
     @Test

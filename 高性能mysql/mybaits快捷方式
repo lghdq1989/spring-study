@@ -59,3 +59,25 @@ javatype 等于属性  ofType 等于list
 
 
        </choose>
+
+批量删除
+       <delete id="batchDeleteByCondition">
+               delete from test where
+               <foreach collection="list" item="item" separator=" or " index="index">
+                   (name = #{item.name} and area_code = #{item.areaCode} and type = #{item.type})
+               </foreach>
+           </delete>
+验证插入
+
+ insert into idcp_service_config_apply18n
+        ( service_area, service_lang,
+        apply_id, service_content,remark,is_Usable,is_Delete)
+        SELECT   #{serviceArea,jdbcType=VARCHAR}, #{serviceLang,jdbcType=VARCHAR},
+      #{applyId,jdbcType=BIGINT}, #{serviceContent,jdbcType=LONGVARCHAR},#{remark,jdbcType=VARCHAR},#{isUsable,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER}
+        from DUAL WHERE NOT EXISTS
+        (SELECT service_lang FROM idcp_service_config_apply18n
+        WHERE
+            service_lang =#{serviceLang,jdbcType=VARCHAR}
+        and apply_id =#{applyId,jdbcType=BIGINT}
+        and service_area=#{serviceArea,jdbcType=VARCHAR}
+        )
