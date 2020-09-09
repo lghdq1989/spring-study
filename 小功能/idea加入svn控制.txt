@@ -1,0 +1,4 @@
+我们点击File --> Settings -->Editor --> File Types进行设置。
+
+2
+接下来我们在右侧会看到ignore files and folders，我们可以看到在下方的框里已经有很多文件名或文件后缀了，而且每个用英文格式下的;隔开，因此我们加入 *.iml;.idea;target;
