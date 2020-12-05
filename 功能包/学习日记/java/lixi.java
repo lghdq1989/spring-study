@@ -9,16 +9,24 @@ import java.util.List;
  * @Version 1.0
  */
 public class lixi {
+
+        public String name;
+        public String id;
     public static void main(String[] args) {
-        List str1 =new ArrayList<>();
-        str1.add(1);
-        str1.add(2);
-        str1.add(3);
-        List str2 =new ArrayList<>();
-        str2.add(2);
-        str2.add(3);
-        str1.removeAll(str2);
-        System.out.println(str1);
+        lixi xi =new lixi();
+        xi.name="111";
+        lixi xi1 =new lixi();
+        xi1.name="222";
+        List<lixi> list =new ArrayList<>();
+        list.add(xi);
+        list.add(xi1);
+        list.forEach(item ->{
+            item.id="11111111111";
+        });
+        list.forEach(item->{
+            System.out.println(item.id);
+        });
+        //money(10500.0,0.15 ,11.0);
        // money(10000.0, 0.15,7.0 );
 //        String key ="11";
 //        if(key==key.toString()){

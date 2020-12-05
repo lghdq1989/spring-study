@@ -188,4 +188,13 @@ public class guavas3 {
         return new ArrayList<String>();
     }
 
+    public static void main(String[] args) {
+         Map<String, String> map6 = Maps.newHashMap();
+        map6.computeIfAbsent("1",l->new String("12"));
+        map6.computeIfAbsent("2",l->new String("123"));
+        map6.computeIfAbsent("2",l->new String("124"));
+        System.out.println(map6);
+
+
+    }
 }
