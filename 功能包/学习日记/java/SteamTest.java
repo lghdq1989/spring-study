@@ -9,7 +9,28 @@ import java.util.stream.Collectors;
  * @Version 1.0
  */
 public class SteamTest {
-//
+//m
+public static void main(String[] args) {
+    Map<Long ,List<String>> map =new HashMap<>();
+    List<String> listStr =new LinkedList<>();
+    listStr.add("1");
+    listStr.add("2");
+    System.out.println(listStr);
+    map.put(1l,listStr);
+    map.forEach(
+            (key,value)->{
+                value.forEach(
+                        war->{
+                            if(null!=war){
+                                System.out.println(war);
+                                return;
+                            }
+                        }
+                );
+
+            }
+    );
+}
     public class TestSort{
     String[] arr1 = {"abc","a","bc","abcd"};
 

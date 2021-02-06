@@ -12,20 +12,33 @@ public class lixi {
 
         public String name;
         public String id;
-    public static void main(String[] args) {
-        lixi xi =new lixi();
-        xi.name="111";
-        lixi xi1 =new lixi();
-        xi1.name="222";
-        List<lixi> list =new ArrayList<>();
-        list.add(xi);
-        list.add(xi1);
-        list.forEach(item ->{
-            item.id="11111111111";
-        });
-        list.forEach(item->{
-            System.out.println(item.id);
-        });
+
+    static void getId() {
+        throw new RuntimeException();
+
+    }
+
+    public static void main(String[] args) throws Exception {
+        try {
+            getId();
+        } catch (Exception ex) {
+            System.out.println(4);
+            throw new Exception();
+        }
+        System.out.println("失败");
+//        lixi xi =new lixi();
+//        xi.name="111";
+//        lixi xi1 =new lixi();
+//        xi1.name="222";
+//        List<lixi> list =new ArrayList<>();
+//        list.add(xi);
+//        list.add(xi1);
+//        list.forEach(item ->{
+//            item.id="11111111111";
+//        });
+//        list.forEach(item->{
+//            System.out.println(item.id);
+//        });
         //money(10500.0,0.15 ,11.0);
        // money(10000.0, 0.15,7.0 );
 //        String key ="11";
