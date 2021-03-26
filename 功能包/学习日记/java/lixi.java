@@ -19,13 +19,16 @@ public class lixi {
     }
 
     public static void main(String[] args) throws Exception {
-        try {
-            getId();
-        } catch (Exception ex) {
-            System.out.println(4);
-            throw new Exception();
+        for(int i =1;i<=3;i++){
+            try {
+                System.out.println(i);
+            }catch (Exception es){
+                if(i>=3){
+
+                    throw es;
+                }
+            }
         }
-        System.out.println("失败");
 //        lixi xi =new lixi();
 //        xi.name="111";
 //        lixi xi1 =new lixi();
