@@ -51,3 +51,39 @@ Linux（6）
 1、使用 service 启动：service mysqld restart
 
 2、使用 mysqld 脚本启动：/etc/inint.d/mysqld restart
+
+
+
+
+分库分表
+
+下一步在MySQL配置文件my.cnf设置如下信息：
+
+[mysqld]
+# 打开binlog
+log-bin=mysql-bin
+# 选择ROW(行)模式
+binlog-format=ROW
+# 配置MySQL replaction需要定义，不要和canal的slaveId重复
+server_id=1
+
+
+
+show variables like  'log_bin';
+---查日志是否成功
+
+show binary  logs;
+
+
+
+
+# mysql fallback connected to new master should fallback times
+---设立账号
+mysql -uroot -proot
+# 创建账号
+CREATE USER canal IDENTIFIED BY 'canal';
+# 授予权限
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
+-- GRANT ALL PRIVILEGES ON *.* TO 'canal'@'%' ;
+# 刷新并应用
+FLUSH PRIVILEGES;

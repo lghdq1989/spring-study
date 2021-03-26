@@ -1,0 +1,25 @@
+如果你是第一次使用，或者还没有配置过的话需要操作一下命令，自行替换相应字段。
+
+git config --global user.name "Luke.Deng"
+git config --global user.email  "xiangshuo1992@gmail.com"
+1
+2
+说明：git config --list 查看当前Git环境所有配置，还可以配置一些命令别名之类的。
+
+二、检查是否存在SSH Key
+cd ~/.ssh
+ls
+或者
+ll
+//看是否存在 id_rsa 和 id_rsa.pub文件，如果存在，说明已经有SSH Key
+1
+2
+3
+4
+5
+如下图
+
+如果没有SSH Key，则需要先生成一下
+
+ssh-keygen -t rsa -C "529133425@qq.com"
+输入密码要重输入

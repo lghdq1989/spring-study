@@ -1,0 +1,76 @@
+接下来我们需要下载canal
+
+1、下载文件：wget https://github.com/alibaba/canal/releases/download/canal-1.1.0/canal.deployer-1.1.0.tar.gz
+
+2、创建文件夹：mkdir /usr/local/canal
+
+3、解压文件：tar -zxvf canal.deployer-1.1.0.tar.gz -C /usr/local/canal/
+
+解压完成之后我们需要修改配置文件，
+
+首先修改conf目录下的canal.properties这个文件：
+
+canal.id=1234   #此处为canal服务的id,id随便，但不能和instance.properties这个配置文件的服务id相同
+canal.ip=192.168.0.254 #此处为服务器的id地址，不要配置成127.0.0.1
+canal.port=11111  #此处为配置的canal端口号
+
+
+
+(3)修改配置文件
+
+sudo vim conf/example/instance.properties
+
+因为我这边需要监听不同服务器上的mysql的binlog日志，所以我这边使用了两个canal来落地到同一个topic中
+
+node001:
+#################################################
+## mysql serverId , v1.0.26+ will autoGen
+canal.instance.mysql.slaveId=2345（此处不能和mysql的server_id重复）
+
+# enable gtid use true/false
+canal.instance.gtidon=false
+
+# position info
+canal.instance.master.address=mysql的地址:3306
+canal.instance.master.journal.name=
+canal.instance.master.position=
+canal.instance.master.timestamp=
+canal.instance.master.gtid=
+
+# rds oss binlog
+canal.instance.rds.accesskey=
+canal.instance.rds.secretkey=
+canal.instance.rds.instanceId=
+
+# table meta tsdb info
+canal.instance.tsdb.enable=true
+
+#canal.instance.standby.address =
+#canal.instance.standby.journal.name =
+#canal.instance.standby.position =
+#canal.instance.standby.timestamp =
+#canal.instance.standby.gtid=
+
+# username/password
+canal.instance.dbUsername=数据库用户名
+canal.instance.dbPassword=数据库密码
+canal.instance.defaultDatabaseName=数据库名
+canal.instance.connectionCharset = UTF-8
+# enable druid Decrypt database password
+canal.instance.enableDruid=false
+#canal.instance.pwdPublicKey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALK4BUxdDltRRE5/zXpVEVPUgunvscYFtEip3pmLlhrWpacX7y7GCMo2/JM6LeHmiiNdH1FWgGCpUfircSwlWKUCAwEAAQ==
+
+# table regex
+canal.instance.filter.regex=.*\\..*
+# table black regex
+#canal.instance.filter.black.regex=
+canal.instance.filter.black.regex = xxl-job\\..*,guaranteeslip\\..*
+
+# mq config
+canal.mq.topic=canal_topic
+# dynamic topic route by schema or table regex
+#canal.mq.dynamicTopic=mytest1.user,mytest2\\..*,.*\\..*
+canal.mq.partition=0
+# hash partition config
+#canal.mq.partitionsNum=3
+#canal.mq.partitionHash=test.table:id^name,.*\\..*
