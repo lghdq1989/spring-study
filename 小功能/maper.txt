@@ -1,0 +1,216 @@
+MapStruct实体转换及List转换的方法讲解
+开发中，我们经常需要将PO转DTO、DTO转PO等一些实体间的转换。比较出名的有BeanUtil 和ModelMapper等，它们使用简单，但是在稍显复杂的业务场景下力不从心。MapStruct这个插件可以用来处理domin实体类与model类的属性映射，可配置性强。只需要定义一个 Mapper 接口，MapStruct 就会自动实现这个映射接口，避免了复杂繁琐的映射实现。MapStruct官网地址： http://mapstruct.org/
+
+引入依赖
+
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-jdk8</artifactId>
+      <version>1.1.0.Final</version>
+    </dependency>
+需求
+
+我们假设有学生student 类 需要转换成 用户 user 类，将学生信息存入用户信息库
+
+此时Student 类内容如下：
+
+public class Student {
+  private Integer id;
+  private String name;
+  private Integer age;
+  private String sex;
+  //setters, getters, toString() 方法此处省略不写，但是实际开发需要写的哦
+  }
+此时User 类内容如下：
+
+public class User {
+  private Integer id;
+  private String name;
+  private Integer age;
+  private String sex;
+  //setters, getters, toString() 方法此处省略不写，但是实际开发需要写的哦
+ }
+转换model
+
+此时 Student 和 User 的属性名字都相同那么转换接口就是
+
+import org.mapstruct.Mapper;
+@Mapper(componentModel = "spring")
+public interface UserMapping {
+  /**
+   * Student 转化为 User
+   * @param Student
+   * @return
+   */
+   User studentToUser(Student student);
+}
+程序运行前要先编译 mvn clean compile ， 从而mapstruct框架生成UserMappingImpl 实现类。
+
+转换model 属性不匹配
+
+如果 User 和 Student 的属性名不对应例如：
+
+此时Student 类内容如下：
+
+public class Student {
+  private Integer id;
+  private String sname;
+  private Integer age;
+  private String sex;
+  //setters, getters, toString() 方法此处省略不写，但是实际开发需要写的哦
+  }
+此时User 类内容如下：
+
+public class User {
+  private Integer id;
+  private String uname;
+  private Integer age;
+  private String sex;
+  //setters, getters, toString() 方法此处省略不写，但是实际开发需要写的哦
+ }
+那么转换接口为
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+@Mapper(componentModel = "spring")
+public interface UserMapping {
+  /**
+   * Student 转化为 User
+   * @param Student
+   * @return
+   */
+   @Mappings({
+      @Mapping(target = "uname", source = "sname")
+     // 多个属性不对应可以用 "，" 隔开编写多个@Mapping
+     // ,@Mapping(target = "uname", source = "sname")
+  })
+   User studentToUser(Student student);
+}
+转换model 属性类型不匹配
+
+比如说user 类的sex字段类型改为boolean
+
+此时User 类内容如下：
+
+public class User {
+  private Integer id;
+  private String uname;
+  private Integer age;
+  private boolean sex;
+  //setters, getters, toString() 方法此处省略不写，但是实际开发需要写的哦
+ }
+这个转换需求有点变态，所以 需要我门自己写个转换类
+
+public class UserTransform {
+  public String booleanToString(boolean value){
+    if(value){
+      return "男";
+    }
+    return "女";
+  }
+  public boolean strToBoolean(String str){
+    if ("男".equals(str)) {
+      return true;
+    }
+    return false;
+  }
+}
+那么转换接口为（使用 UserTransform.class 类）
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+@Mapper(componentModel = "spring",uses = UserTransform.class)
+public interface UserMapping {
+  /**
+   * Student 转化为 User
+   * @param Student
+   * @return
+   */
+   @Mappings({
+      @Mapping(target = "uname", source = "sname")
+     // 多个属性不对应可以用 "，" 隔开编写多个@Mapping
+     // ,@Mapping(target = "uname", source = "sname")
+  })
+   User studentToUser(Student student);
+}
+转换list
+
+当user 和 student 都是集合形式list 时应当如下转换
+
+转化 List<> 集合时必须有 实体转化，因为在实现中，List 转换是 for循环调用 实体转化的。所以当属性名不对应时，应该在 实体转化进行 @Mappings 的属性名映射配置，然后list的转换也会继承这和属性的映射。
+
+例如 属性名相同
+
+import org.mapstruct.Mapper;
+@Mapper(componentModel = "spring")
+public interface UserMapping {
+  /**
+   * Student 转化为 User
+   * @param Student
+   * @return
+   */
+   User studentToUser(Student student);
+   /**
+   * Students 转化为 Users
+   * @param Students
+   * @return
+   */
+   List<User> studentsToUsers(List<Student> students);
+属性名不同：
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+@Mapper(componentModel = "spring")
+public interface UserMapping {
+  /**
+   * Student 转化为 User
+   * @param Student
+   * @return
+   */
+   @Mappings({
+      @Mapping(target = "uname", source = "sname")
+     // 多个属性不对应可以用 "，" 隔开编写多个@Mapping
+     // ,@Mapping(target = "uname", source = "sname")
+  })
+   User studentToUser(Student student);
+  /**
+   * 此时 studentsToUsers 的实现为循环调用 studentToUser 并继承了 studentToUser 的属性映射
+   * Students 转化为 Users
+   * @param Students
+   * @return
+   */
+   List<User> studentsToUsers(List<Student> students);
+}
+展示自动生成的 UserMappingImpl 实现（此类为 执行 mvn clean compile 后自动生成）
+
+@Component
+public class UserMappingImpl implements UserMapping {
+  @Override
+  public User studentToUser(student student) {
+    if ( student == null ) {
+      return null;
+    }
+    User user = new User();
+    User.setId(student.getId() );
+    User.setName(student.getName() );
+    // 如果配置了属性映射则为
+    //User.setUname(student.getSname() );
+    User.setSex(student.getSex() );
+    User.setAge(student.getAge() );
+    return user;
+  }
+  @Override
+  public List<User> studentsToUsers(List<student> students) {
+    if ( students == null ) {
+      return null;
+    }
+    List<User> list = new ArrayList<User>();
+    for ( student student : students ) {
+      list.add( studentToUser( student ) );
+    }
+    return list;
+  }
+}

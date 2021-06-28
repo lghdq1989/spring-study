@@ -1,0 +1,17 @@
+创建maven项目指令
+mvn archetype:create -DgroupId=org.sonatype.mavenbook.ch03 \
+ -DartifactId=simple \
+ -DpackageName=org.sonatype.mavenbook
+
+ 结构
+ simple/❶
+ simple/pom.xml❷
+  /src/
+  /src/main/❸
+  /main/java
+  /src/test/❹
+  /test/java
+
+
+3.3. 构建一个简单的项目
+  mvn install

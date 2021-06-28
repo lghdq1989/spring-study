@@ -1,0 +1,182 @@
+@Getter/@Setter: 作用类上，生成所有成员变量的getter/setter方法；作用于成员变量上，生成该成员变量的getter/setter方法。可以设定访问权限及是否懒加载等。
+
+@ToString：作用于类，覆盖默认的toString()方法，可以通过of属性限定显示某些字段，通过exclude属性排除某些字段。
+
+@EqualsAndHashCode：作用于类，覆盖默认的equals和hashCode
+
+@NonNull：主要作用于成员变量和参数中，标识不能为空，否则抛出空指针异常。
+
+@NoArgsConstructor, @RequiredArgsConstructor, @AllArgsConstructor：作用于类上，用于生成构造函数。有staticName、access等属性。
+
+staticName属性一旦设定，将采用静态方法的方式生成实例，access属性可以限定访问权限。
+
+@NoArgsConstructor：生成无参构造器；
+
+@RequiredArgsConstructor：生成包含final和@NonNull注解的成员变量的构造器；
+
+@AllArgsConstructor：生成全参构造器
+
+@Data：作用于类上，是以下注解的集合：@ToString @EqualsAndHashCode @Getter @Setter @RequiredArgsConstructor
+
+@Builder：作用于类上，将类转变为建造者模式
+
+@Log：作用于类上，生成日志变量。针对不同的日志实现产品，有不同的注解：
+
+其他重要注解：
+@Cleanup：自动关闭资源，针对实现了java.io.Closeable接口的对象有效，如：典型的IO流对象
+
+编译后结果如下：
+
+@SneakyThrows：可以对受检异常进行捕捉并抛出，可以改写上述的main方法如下：
+
+@Synchronized：作用于方法级别，可以替换synchronize关键字或lock锁，用处不大.
+
+
+
+
+5，@NoArgsConstructor
+注解在类上，为类提供一个无参的构造方法。 注意：
+当类中有 final 字段没有被初始化时，编译器会报错，此时可用 @NoArgsConstructor(force = true)，然后就会为没有初始化的 final 字段设置默认值 0 / false / null。
+对于具有约束的字段（例如 @NonNull 字段），不会生成检查或分配，因此请注意，正确初始化这些字段之前，这些约束无效。
+// 使用注解
+@NoArgsConstructor
+public class Shape {
+    private int x;
+    @NonNull
+    private double y;
+    @NonNull
+    private String name;
+}
+
+// 不使用注解
+public class Shape {
+    private int x;
+    private double y;
+    private String name;
+
+    public Shape(){
+    }
+}
+　　
+
+6，@AllArgsConstructor
+（1）注解在类上，为类提供一个全参的构造方法。 （2）默认生成的方法是 public 的，如果要修改方法修饰符可以设置 AccessLevel 的值。
+例如：@Getter(access = AccessLevel.PROTECTED)
+// 使用注解
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+public class Shape {
+    private int x;
+    @NonNull
+    private double y;
+    @NonNull
+    private String name;
+}
+
+// 不使用注解
+public class Shape {
+    private int x;
+    private double y;
+    private String name;
+
+    protected Shape(int x, double y, String name){
+        this.x = x;
+        this.y = y;
+        this.name = name;
+    }
+}
+　　
+
+
+
+7，@RequiredArgsConstructor
+（1）注解在类上，会生成构造方法（可能带参数也可能不带参数）。 注意：如果带参数，这参数只能是以 final 修饰的未经初始化的字段或者是以 @NonNull 注解的未经初始化的字段。   （2）该注解还可以用 @RequiredArgsConstructor(staticName="methodName") 的形式生成一个指定名称的静态方法，返回一个调用相应的构造方法产生的对象
+// 使用注解
+@RequiredArgsConstructor(staticName = "hangge")
+public class Shape {
+    private int x;
+    @NonNull
+    private double y;
+    @NonNull
+    private String name;
+}
+
+// 不使用注解
+public class Shape {
+    private int x;
+    private double y;
+    private String name;
+
+    public Shape(double y, String name){
+        this.y = y;
+        this.name = name;
+    }
+
+    public static Shape hangge(double y, String name){
+        return new Shape(y, name);
+    }
+}
+　　
+
+  @JsonView-------------------------限制返回视图
+    @JsonView(UserSimpleView.class)
+    public String getUsername() {
+        return username;
+    }
+
+
+        @GetMapping("query")
+        @JsonView(User.UserSimpleView.class)
+        public List<User> query(
+                //@RequestParam(value="username",required=false,defaultValue="lhy") String username
+                UserQueryCondition condition , Pageable pageable){
+    //        System.err.println(username);
+            System.err.println(condition.toString());
+            System.err.println(pageable.toString());
+
+            List<User> users = new ArrayList<User>();
+            users.add(new User());
+            users.add(new User());
+            users.add(new User());
+            return users;
+        }
+
+
+Hibernate Validator中常用的验证注解介绍:
+
+1.@AssertFalse  : 验证注解的元素值时false
+
+2.@AssertTrue : 验证注解的元素值时true
+
+3.@DecimalMax(value=x) : 验证注解的元素值小于等于指定的十进制value值
+
+4.DecimalMin(value=x) : 验证注解的元素值大于等于指定的十进制value值
+
+5.@Degits(integer=整数位数,fraction=小数位数) : 验证注解的元素值的整数位树和小数位数上线
+
+6.@Futrue : 验证注解的元素值(日期类型) 比当前时间晚
+
+7.@Max(value=x) : 验证注解的元素值小于等于指定的value值
+
+8.@Min(value=x) 验证注解的元素值大于等于指定的value值
+
+9.@NotNull : 验证注解的元素值不是null
+
+10.@Null : 验证注解的元素值是null
+
+11.@Past : 验证注解的元素值(日期类型)比当前时间早
+
+12.@Pattern(regex=正则表达式)  : 验证注解的元素值与指定的正则表达式匹配
+
+13.@Size(min=最小值,max=最大值) : 验证注解的元素值在min和max(包含)指定区间,如字符长度,集合大小
+
+14.@Valid : 验证关联的对象 ,如账户对象里有一个订单对象,指定验证订单对象
+
+15.@NotEmpty : 验证注解的元素值不为null且不为空(字符长度不为0,集合大小不为0)
+
+16.@Renge(min=最小值,max=最大值) 验证注解的元素值在最小值和最大值之间
+
+17.@NotBlank : 验证注解的元素不为空(不为null,去除首位空格后长度为0),不同于@NotEmpty,@NotBlank只应用于字符串且在比较时会去除字符串的空格
+
+18.@Length(min=下限,max=上线) 验证注解的元素值长度在min和max区间内
+
+19.@Email : 验证注解的元素值时Emali,也可以通过正则表达式和flag指定自定义的email格式

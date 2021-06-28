@@ -1,0 +1,11 @@
+以root用户登录系统，进入/etc目录，查看sudoers文件的权限
+
+修改sudoers文件的权限使其不是只读
+
+chmod 777 sudoers
+
+lguser (all:all)  all
+4、然后修改回sudoers文件权限为440
+
+chmod 440 sudoers
+即可使用sudo命令，然后输入用户的密码，如果想要在使用sudo命令的时候不输入密码，在编辑sudoers文件的时候添加NOPASSWD: 即可

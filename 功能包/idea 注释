@@ -1,0 +1,23 @@
+1、打开系统设置Setting（Ctrl+Alt+S快捷键）
+
+2、Editor—>Live Templates—>点击+号。添加一个templates group来放置自己快捷键，效果图如下：
+
+3、选中创建的group—>再次点击+号，添加一个Live template
+
+
+
+
+
+4、设置自定义的快捷键模板：
+
+Abbreviation：快捷键，Description：描述该快捷键
+
+Template text：自定义的快捷键模板
+
+**
+* @Description: $description$
+* @Param: $params$
+* @return: $returns$
+* @Author: 姜晶
+* @Date: $date$
+

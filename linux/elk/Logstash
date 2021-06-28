@@ -1,0 +1,46 @@
+wget https://artifacts.elastic.co/downloads/logstash/logstash-5.4.1.tar.gz
+
+
+ sudo mkdir /usr/local/logstash
+
+ [chenlei@chenlei ~]$ sudo mv logstash-5.4.1.tar.gz /usr/local/logstash/
+ [chenlei@chenlei ~]$ cd /usr/local/logstash/
+ [chenlei@chenlei logstash]$ sudo tar -zxvf logstash-5.4.1.tar.gz
+ cd logstash-5.4.1/
+
+
+--------------测试开启
+ ./bin/logstash -e 'input { stdin {} } output { stdout {} }'
+
+------------------- 配置el
+5.logstash配置启动
+现在可以配置logstash了
+
+cd logstash-6.4.2/bin/进入bin目录
+
+新建文件 vim logstash1.conf ，写入内容(监听tomcat的日志)：
+
+input{
+    tcp {
+       port => 9876
+       mode => "server"
+       ssl_enable => false
+   }
+}
+output{
+    elasticsearch{hosts =>["localhost:9200"] index=>"log1" }
+    stdout{codec=>rubydebug}
+}
+
+sh logstash -f logstash1.conf  &
+
+
+---------------------------------------------------
+java项目
+
+appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>192.168.220.83:9876</destination>
+   <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+</appender>
+
+logback.xml要配置地址

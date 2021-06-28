@@ -1,0 +1,30 @@
+③修改kibana的配置文件，进入config/，修改kibana.yml。
+
+# cd config/
+
+#vim kibana.yml
+
+④将配置文件中的server.host改为"0.0.0.0"，这样可以在我们自己的浏览器内打开kibana页面。因为Elasticsearch也安装在这台linux服务器中，所以不需要再修改elasticsearch的服务器地址，使用默认的就可以了。
+
+⑤进入bin/目录下，启动kibana。
+
+# cd bin/
+
+# ./kibana &   nohup ./kibana &
+
+config 要改
+server.host: "0.0.0.0"
+
+elasticsearch.hosts: ["http://0.0.0.0:9200"]
+
+
+⑥启动完成后，浏览器内输入"ip:5601"，这样就算是部署成功了。
+
+
+ nohup ./kibana &
+yum install -y ipa-gothic-fonts xorg-x11-fonts-100dpi xorg-x11-fonts-75dpi xorg-x11-utils xorg-x11-fonts-cyrillic xorg-x11-fonts-Type1 xorg-x11-fonts-misc fontconfig freetype
+
+
+
+
+-
